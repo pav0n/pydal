@@ -151,7 +151,15 @@ else:
         DRIVERS['imaplib'] = imaplib
     except:
         pass
-
+    try:
+        from cassandra.cluster import Cluster as cassandra
+        from cassandra.auth import PlainTextAuthProvider as PlainTextAuthProvider
+        from cassandra import ConsistencyLevel as ConsistencyLevel
+        from cassandra.query import SimpleStatement as SimpleStatement
+        DRIVERS['cassandra'] = cassandra
+    except:
+        PlainTextAuthProvider = None;
+        LOGGER.debug('no CassandraDB driver cassandra')
 
 # for backward compatibility?
 def get_driver(name):

@@ -15,6 +15,7 @@ from .cubrid import CubridAdapter
 from .couchdb import CouchDBAdapter
 from .mongo import MongoDBAdapter
 from .imap import IMAPAdapter
+from .cassandra import CassandraAdapter
 
 
 ADAPTERS = {
@@ -51,7 +52,8 @@ ADAPTERS = {
     'jdbc:postgres': JDBCPostgreSQLAdapter,
     'couchdb': CouchDBAdapter,
     'mongodb': MongoDBAdapter,
-    'imap': IMAPAdapter
+    'imap': IMAPAdapter,
+    'cassandra':CassandraAdapter
 }
 
 try:
