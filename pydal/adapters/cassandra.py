@@ -9,8 +9,10 @@ from .base import NoSQLAdapter, BaseAdapter
 from ..drivers import PlainTextAuthProvider
 from ..drivers import ConsistencyLevel
 from ..drivers import SimpleStatement
+from ..drivers import dict_factory
 from ..helpers.methods import uuid2int
 from uuid import uuid4
+from ..objects import Table, Query, Field, Expression
 
 class CassandraAdapter(BaseAdapter):
     drivers = ('cassandra',)
@@ -143,3 +145,23 @@ class CassandraAdapter(BaseAdapter):
         log.info('Connection closed.')
             
     def execute(self,a): pass
+    
+    def select(self,query,fields,attributes):
+        print 'query %s'%query
+        print 'fields %s' %fields
+        print 'attributes %s'%attributes
+        self.cursor.row_factory = dict_factory
+        tablename = None
+        if isinstance(query,Query):
+            tablename = self.get_table(query)
+        elif len(fields) != 0:
+            tablename = fields[0].tablename
+        if query is None:
+            if fields:
+                def colexpand(field):
+                    return field.name
+                _colnames = map(colexpand, fields)
+                print _colnames
+                query = 'SELECT %s FROM %s' %(','.join(_colnames),tablename)
+                print query
+        return self.cursor.execute(query)

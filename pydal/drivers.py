@@ -153,9 +153,10 @@ else:
         pass
     try:
         from cassandra.cluster import Cluster as cassandra
-        from cassandra.auth import PlainTextAuthProvider as PlainTextAuthProvider
-        from cassandra import ConsistencyLevel as ConsistencyLevel
-        from cassandra.query import SimpleStatement as SimpleStatement
+        from cassandra.auth import PlainTextAuthProvider
+        from cassandra import ConsistencyLevel
+        from cassandra.query import SimpleStatement
+        from cassandra.query import dict_factory
         DRIVERS['cassandra'] = cassandra
     except:
         PlainTextAuthProvider = None;
